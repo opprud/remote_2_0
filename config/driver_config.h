@@ -8,7 +8,7 @@
 #ifndef DRIVER_CONFIG_H_
 #define DRIVER_CONFIG_H
 
-#include <LPC11xx.h>
+#include "../../remote_lpc1114/cmsis/LPC11xx.h"
 
 #define CONFIG_ENABLE_DRIVER_CRP						1
 #define CONFIG_CRP_SETTING_NO_CRP						1

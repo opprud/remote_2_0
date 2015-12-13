@@ -17,9 +17,9 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_CRP==1
-#include "crp.h"
+#include "../../remote_lpc1114/driver/crp.h"
 /************************************************************/
 /**** DANGER CRP3 WILL LOCK PART TO ALL READS and WRITES ****/
 /*********** #define CRP3_MAGIC xxxx 0x43218765 *************/

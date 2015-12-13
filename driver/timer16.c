@@ -19,8 +19,9 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
-#include "timer16.h"
+#include "../../remote_lpc1114/driver/timer16.h"
+
+#include "../../remote_lpc1114/config/driver_config.h"
 
 #if CONFIG_ENABLE_DRIVER_TIMER16==1
 

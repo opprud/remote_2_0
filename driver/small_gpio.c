@@ -20,9 +20,9 @@
  * use without further testing or modification.
  **********************************************************************/
 
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_SMALLGPIO
-#include "small_gpio.h"
+#include "../../remote_lpc1114/driver/small_gpio.h"
 
 const uint8_t IOCON_LUT[PORT_COUNT][PORT_BIT_COUNT] = {
     { 0x0C, 0x10, 0x1C, 0x2C, 0x30, 0x34, 0x4C, 0x50, 0x60, 0x64, 0x68, 0x74 },

@@ -10,12 +10,11 @@
  *
  * @brief  Clear state and timer, sets up port
  */
-#include "led.h"
-//#include "lpc8xx_gpio.h"
-//#include "LPC8xx.h"
-#include "gpio.h"
-#include "defs.h"
-#include "m0utils.h"
+#include "../../remote_lpc1114/src/led.h"
+
+#include "../../remote_lpc1114/driver/gpio.h"
+#include "../../remote_lpc1114/src/defs.h"
+#include "../../remote_lpc1114/src/m0utils.h"
 
 /* array holding led status codes */
 /* --------------------------------- LED flash times---------------------------------------------- / timer/ repeat */

@@ -18,9 +18,9 @@
  * notification. NXP Semiconductors also make no representation or
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
-****************************************************************************/#include "driver_config.h"
+****************************************************************************/#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_RS485==1
-#include "rs485.h"
+#include "../../remote_lpc1114/driver/rs485.h"
 
 volatile uint32_t UARTStatus;
 volatile uint8_t  UART0TxEmpty = 1;

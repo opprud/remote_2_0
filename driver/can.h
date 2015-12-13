@@ -23,7 +23,7 @@
 #if CONFIG_ENABLE_DRIVER_CAN==1
 
 #include "driver_config.h"
-#include "type.h"
+#include "../../remote_lpc1114/driver/type.h"
 
 
 /* If TRANSMIT_ONLY is 0, it's a RX_TX bouncing mode, 

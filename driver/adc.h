@@ -19,7 +19,7 @@
 ****************************************************************************/
 #ifndef __ADC_H
 #define __ADC_H
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if  CONFIG_ENABLE_DRIVER_ADC==1
 
 #ifndef CONFIG_ADC_ENABLE_ADC_IRQHANDLER

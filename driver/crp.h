@@ -19,9 +19,10 @@
 ****************************************************************************/
 #ifndef _CRP_H_INCLUDED_
 #define _CRP_H_INCLUDED_
+
 #if CONFIG_ENABLE_DRIVER_CRP==1
 
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 
 #define CRP_NO_CRP          0xFFFFFFFF
 

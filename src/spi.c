@@ -8,8 +8,9 @@
  *
  */
 
-#include "driver_config.h"
-#include "spi.h"
+#include "../../remote_lpc1114/src/spi.h"
+
+#include "../../remote_lpc1114/config/driver_config.h"
 
 
 void SPI_Init(void)

@@ -8,7 +8,7 @@
 #ifndef HW_BRINGUP_SRC_LED_H_
 #define HW_BRINGUP_SRC_LED_H_
 
-#include "defs.h"
+#include "../../remote_lpc1114/src/defs.h"
 
 #define ON	TRUE
 #define OFF	FALSE

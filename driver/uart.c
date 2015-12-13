@@ -8,9 +8,9 @@
  *   2009.12.07  ver 1.00    Preliminary version, first Release
  *
 ******************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_UART==1
-#include "uart.h"
+#include "../../remote_lpc1114/driver/uart.h"
 
 volatile uint32_t UARTStatus;
 volatile uint8_t  UARTTxEmpty = 1;

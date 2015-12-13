@@ -21,7 +21,7 @@
 #define HW_BRINGUP_DRIVER_ROM_DRIVERS_H_
 
 #if CONFIG_ENABLE_DRIVER_ROMCAN==1
-	#include "rom_driver_CAN.h"
+	#include "../../remote_lpc1114/driver/rom_driver_CAN.h"
 #endif /* (PERIPHERAL == CAN) */
 
 #if CONFIG_ENABLE_DRIVER_ROMUSB==1

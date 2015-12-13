@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/RF22.c \
+../src/RHReliableDatagram.c \
 ../src/led.c \
 ../src/m0utils.c \
 ../src/main.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 
 OBJS += \
 ./src/RF22.o \
+./src/RHReliableDatagram.o \
 ./src/led.o \
 ./src/m0utils.o \
 ./src/main.o \
@@ -21,6 +23,7 @@ OBJS += \
 
 C_DEPS += \
 ./src/RF22.d \
+./src/RHReliableDatagram.d \
 ./src/led.d \
 ./src/m0utils.d \
 ./src/main.d \

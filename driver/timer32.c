@@ -19,9 +19,9 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_TIMER32==1
-#include "timer32.h"
+#include "../../remote_lpc1114/driver/timer32.h"
 
 /* ===================
  * CodeRed - Modified file to extract out interrupt handler related code,

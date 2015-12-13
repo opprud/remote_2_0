@@ -17,15 +17,14 @@
 //                      +-------------------+
 //
 //#include "LPC17xx.h"
-#include "driver_config.h"
-#include "RF22.h"
-//#include <math.h>
-//#include <string.h>
-#include "m0utils.h"
-#include "defs.h"
-#include "spi.h"
-//#include "../driver/gpio.h"
-#include "gpio.h"
+#include "../../remote_lpc1114/src/RF22.h"
+
+#include "../../remote_lpc1114/config/driver_config.h"
+#include "../../remote_lpc1114/driver/gpio.h"
+#include "../../remote_lpc1114/src/defs.h"
+#include "../../remote_lpc1114/src/m0utils.h"
+#include "../../remote_lpc1114/src/RHGeneric.h"
+#include "../../remote_lpc1114/src/spi.h"
 
 #define SPI_SSEL_PIN	9
 
@@ -113,11 +112,10 @@ volatile bool _rxBufValid;
 volatile bool _txPacketSent;
 volatile uint8_t _txBufSentIndex;
 
-volatile uint16_t _rxBad;
-volatile uint16_t _rxGood;
-volatile uint16_t _txGood;
-
-volatile uint8_t _lastRssi;
+//volatile uint16_t _rxBad;
+//volatile uint16_t _rxGood;
+//volatile uint16_t _txGood;
+//volatile uint8_t _lastRssi;
 
 bool RF22init(uint8_t slaveSelectPin, uint8_t interruptPin, uint8_t spiPortNum)
 {

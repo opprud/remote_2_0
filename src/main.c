@@ -1,26 +1,24 @@
-#include "driver_config.h"
-#include "target_config.h"
-#include "m0utils.h"
-#include "timer32.h"
-#include "gpio.h"
-#include "rf22.h"
-#include "rfcomm.h"
-#include "trigInput.h"
-#include "spi.h"
-#include "defs.h"
-#include "led.h"
+#include "../../remote_lpc1114/config/driver_config.h"
+#include "../../remote_lpc1114/config/target_config.h"
+#include "../../remote_lpc1114/driver/gpio.h"
+#include "../../remote_lpc1114/driver/timer32.h"
+#include "../../remote_lpc1114/src/defs.h"
+#include "../../remote_lpc1114/src/led.h"
+#include "../../remote_lpc1114/src/m0utils.h"
+#include "../../remote_lpc1114/src/rfcomm.h"
+#include "../../remote_lpc1114/src/RF22.h"
+#include "../../remote_lpc1114/src/RHReliableDatagram.h"
+#include "../../remote_lpc1114/src/spi.h"
+#include "../../remote_lpc1114/src/trigInput.h"
 
-//TEMP ff
-#define DEBUG
-
-/* timer thing */
 unsigned int MsCount;
-/*read MY_ID from HW jumpers*/
-unsigned char MY_ID = 1;
 
-/* tx & rx data package*/
-payload_t txData;
-payload_t rxData;
+#define CLIENT_ADDRESS 1
+#define SERVER_ADDRESS 2
+
+uint8_t data[] = "Hello World!";
+// Dont put this on the stack:
+uint8_t buf[44];
 
 /* SysTick interrupt happens every 10 ms */
 void SysTick_Handler(void)
@@ -41,16 +39,15 @@ void readHwId(void)
 	unsigned int val;
 #if 0
 	val = LPC_GPIO_PORT->PIN0;
-
 	MY_ID =1;	//ID1 is the lowest possible
 	if(val & (1 << ID_BIT0))
-		MY_ID += 1;
+	MY_ID += 1;
 	if(val & (1 << ID_BIT1))
-		MY_ID += 2;
+	MY_ID += 2;
 	if(val & (1 << ID_BIT2))
-		MY_ID += 4;
+	MY_ID += 4;
 	if(!(val & (1 << ID_BIT3)))
-		MY_ID += 8;
+	MY_ID += 8;
 #endif
 }
 
@@ -67,53 +64,7 @@ void initError(void)
 	}
 }
 
-/*
- * @brief 	Wait for ACK after transmitting, returns status code accordingly
- *
- * @return	ACK_OK 	GOT_BROADCAST	ACK_TIMEOUT
- * */
-signed int waitForAck(void)
-{
-	unsigned char len;
-	if (waitAvailableTimeout(ACK_TIMEOUT_MS))
-	{
-		len = sizeof(rxData);
-		if (recv((unsigned char *) &rxData, &len))
-		{
-			if (rxData.type == ACK_REMOTE)
-			{
-				if (rxData.dest == MY_ID)
-				{
-					return ACK_OK;
-				}
-                else
-                {
-                    return OTHER_DATA;
-                }
-			}
-			else if ((rxData.type == DATA_REMOTE) || (rxData.type == DATA_ROUTER))
-			{
-				return OTHER_DATA;
-			}
-			else if (rxData.type == BROADCAST)
-			{
-				return GOT_BROACAST;
-			}
-		}
-	}
-	return ACK_TIMEOUT;
-}
-
-/*
- * @brief 	Feed the watchdog
- *
- * @return	none
- * */
-void WDTFeed(void)
-{
-
-}
-
+/**
 /**
  * @brief 	setup systems & platform
  *
@@ -128,7 +79,7 @@ void sysInit(void)
 	/* enale brown out reset when VCC < 2,4V*/
 	//BOD_Init();
 	/* Called for system library in core_cmx.h(x=0 or 3). */
-	SysTick_Config( (SysTick->CALIB/10) + 1);
+	SysTick_Config((SysTick->CALIB / 10) + 1);
 
 	/* init periphereals*/
 	GPIOInit();
@@ -155,6 +106,9 @@ void sysInit(void)
 
 	/* 17dBm TX power - max is 20dBm */
 	setTxPower(RF22_TXPOW_17DBM);
+
+	initRHReliableDatagram(1);
+
 #if 1
 	/*  un-select RFM22 */
 	//GPIOSetDir(SEL_PORT, SEL_PIN, 1);
@@ -182,12 +136,17 @@ void sysInit(void)
 
 int main(void)
 {
-	volatile int timeouts, triggerAction, lastTrigger; //todo remove volatile
-	signed char gotAck = 0;
-	unsigned char txRetries = 0;
-	volatile unsigned char len = 0;
 
-	volatile int dbg =0;
+	uint8_t to;
+	uint8_t id;
+	uint8_t flags;
+
+	/* 0 = ignore */
+	to = id = flags = 0;
+
+	// Now wait for a reply from the server
+	uint8_t len = sizeof(buf);
+	uint8_t from;
 
 	LED_STATUS_t state = LED_IDLE;
 
@@ -195,102 +154,40 @@ int main(void)
 	/* setup GPIO and RFM22 */
 	sysInit();
 
+	/*rxta all*/
+	setPromiscuous(1);
+
 	/* allow system to settle ?WTF? before reading HW ID*/
 	delay(300);
 
-#if 0
-	/* blink led to signal HW adress*/
-	readHwId();
-	if (MY_ID < 16)
-	{
-		len = MY_ID;
-		while (len--)
-		{
-			ledOn();
-			delay(150);
-			ledOff();
-			delay(300);
-			WDTFeed();
-		}
-		/**additional delay, before led handler takes over
-		 * also allows sufficient time to avoid detecting a trig input
-		 */
-		delay(300);
-	}
-
-	//rx all
-#endif
-
-	setPromiscuous(1);
-
+//	recvfromAckTimeout(buf, &len, 2000, &from, &to, &id, &flags);
 	while (1)
 	{
-		WDTFeed();
-		/* and AC trigger input */
 
-		triggerAction = trigInputRead();
-		//if ( triggerAction != NO_TRIGGER)
-		/* any change since last...?*/
-		if (triggerAction != lastTrigger)
+		if (available())
 		{
-			/* update delay line */
-			lastTrigger = triggerAction;
-			/* so if we are triggered...*/
-			if ((triggerAction == TRIGGER1_ACTIVE) || (triggerAction == TRIGGER2_ACTIVE))
+			// Wait for a message addressed to us from the client
+			uint8_t len = sizeof(buf);
+			uint8_t from;
+			//if (recvfromAck(buf, &len, &from))
+			if (recvfromAckTimeout(buf, &len, 2000, &from, &to, &id, &flags))
 			{
-				/* compose data pkg */
-				txData.data[0] = triggerAction;
-				txData.data[1] = triggerAction;//MY_ID;
-				txData.dest = DEST_ANY_ROUTER;
-				txData.source = triggerAction;//MY_ID;
-				txData.type = DATA_REMOTE;
+				//printf("got request from : 0x");
+				/*Serial.print(from, HEX);
+				Serial.print(": ");
+				Serial.println((char*) buf);
+*/
+				// Send a reply back to the originator client
+				if (!sendtoWait(data, sizeof(data), from))
+					from--;
+					//printf("sendtoWait failed");
 			}
-			/* nothing usefull, then don't send*/
-			else
-			{
-				continue;
-			}
-
-			/* send message, if unsucessfull, retry */
-			gotAck = 0;
-			txRetries = 0;
-			do
-			{
-				WDTFeed();
-				/* if we have been here before due to non ACK_OK data*/
-				if ((gotAck == OTHER_DATA) || (gotAck == GOT_BROACAST))
-				{
-					gotAck = waitForAck();
-				}
-				/* if we are timed out...*/
-				else
-				{
-					len = sizeof(txData);
-					send(&txData.data[0], len);
-					waitPacketSent();
-					gotAck = waitForAck();
-				}
-			} while ((gotAck != ACK_OK) && (txRetries++ < NO_OF_RETRIIES));
-
-			if (gotAck == ACK_TIMEOUT)
-			{
-				timeouts++;
-				state = LED_ACK_TIMEOUT;
-				/* set IDLE to lower consumption*/
-				setModeIdle();
-			}
-			if (gotAck == ACK_OK)
-			{
-				/* set IDLE to lower consumption*/
-				state = LED_ACK_OK;
-				setModeIdle();
-			}
-
 		}
+
 		/* update LED's*/
 		if (updateLed(state) == SEQUENCE_END)
 			state = LED_IDLE;
+
 	}
 }
-
 

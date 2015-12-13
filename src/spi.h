@@ -8,6 +8,7 @@
 #ifndef HW_BRINGUP_SRC_SPI_H_
 #define HW_BRINGUP_SRC_SPI_H_
 
+#include <stdint.h>
 /* Port0.2 is the SSP select pin */
 #define SSP0_SEL        (0x1<<2)
 

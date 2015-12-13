@@ -56,12 +56,12 @@
  * P1.5:   SWU_RX  [CAP0.0]- software UART Rx pin
  *
  *********************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_SWUART==1
 #include "target_config.h"
 
-#include "gpio.h"
-#include "lpc_swu.h"
+#include "../../remote_lpc1114/driver/gpio.h"
+#include "../../remote_lpc1114/driver/lpc_swu.h"
 
 /*********************************************************
  ** Macro Definitions                                 	**

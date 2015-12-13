@@ -19,9 +19,9 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_CAN==1
-#include "can.h"
+#include "../../remote_lpc1114/driver/can.h"
 
 /* statistics of all the interrupts */
 volatile uint32_t BOffCnt = 0;

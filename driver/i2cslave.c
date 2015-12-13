@@ -19,10 +19,10 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_I2CSLAVE==1
-#include "type.h"
-#include "i2cslave.h"
+#include "../../remote_lpc1114/driver/type.h"
+#include "../../remote_lpc1114/driver/i2cslave.h"
 
 volatile uint32_t I2CMasterState = I2C_IDLE;
 volatile uint32_t I2CSlaveState = I2C_IDLE;

@@ -19,8 +19,9 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"			/* LPC11xx Peripheral Registers */
-#include "wdt.h"
+#include "../../remote_lpc1114/driver/wdt.h"
+
+#include "../../remote_lpc1114/config/driver_config.h"			/* LPC11xx Peripheral Registers */
 
 #if CONFIG_ENABLE_DRIVER_WDT==1
 

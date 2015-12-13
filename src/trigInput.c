@@ -6,11 +6,12 @@
  * @author mortenjakobsen
  */
 
-#include "driver_config.h"
-#include "trigInput.h"
-#include "m0utils.h"
-#include "defs.h"
-#include "gpio.h"
+#include "../../remote_lpc1114/src/trigInput.h"
+
+#include "../../remote_lpc1114/config/driver_config.h"
+#include "../../remote_lpc1114/driver/gpio.h"
+#include "../../remote_lpc1114/src/defs.h"
+#include "../../remote_lpc1114/src/m0utils.h"
 
 #define TRIG_IN_PIN_1			10
 #define TRIG_IN_PORT_1			1

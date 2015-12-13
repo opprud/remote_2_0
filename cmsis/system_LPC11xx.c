@@ -26,7 +26,8 @@
 
 
 #include <stdint.h>
-#include "LPC11xx.h"
+
+#include "../../remote_lpc1114/cmsis/LPC11xx.h"
 
 
 /*----------------------------------------------------------------------------

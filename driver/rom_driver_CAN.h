@@ -20,7 +20,7 @@
 #ifndef __ROM_DRIVER_CAN_H__
 #define __ROM_DRIVER_CAN_H__
 
-#include "LPC11xx.h"
+#include "../../remote_lpc1114/cmsis/LPC11xx.h"
 
 // error status bits
 #define CAN_ERROR_NONE  0x00000000UL

@@ -18,9 +18,9 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_CLKCONFIG==1
-#include "clkconfig.h"
+#include "../../remote_lpc1114/driver/clkconfig.h"
 
 /*****************************************************************************
 ** Function name:		WDT_CLK_Setup

@@ -19,10 +19,10 @@
  * warranty that such application will be suitable for the specified
  * use without further testing or modification.
 ****************************************************************************/
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_SSP==1
-#include "gpio.h"
-#include "ssp.h"
+#include "../../remote_lpc1114/driver/gpio.h"
+#include "../../remote_lpc1114/driver/ssp.h"
 
 /* statistics of all the interrupts */
 volatile uint32_t interruptRxStat0 = 0;

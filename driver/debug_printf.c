@@ -21,11 +21,11 @@
  * use without further testing or modification.
  **********************************************************************/
 
-#include "driver_config.h"
+#include "../../remote_lpc1114/config/driver_config.h"
 #if CONFIG_ENABLE_DRIVER_PRINTF==1
 #include <stdarg.h>
 #include <stdint.h>
-#include "debug_printf.h"
+#include "../../remote_lpc1114/driver/debug_printf.h"
 #include "small_printf.h"
 #include "small_utils.h"
 #include "LPC11xx.h"
